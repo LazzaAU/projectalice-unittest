@@ -14,10 +14,10 @@ class ProjectAliceUnittest:
 		patcher = patch.dict(
 			'sys.modules',
 			{
-				'core.base.model.AliceSkill': AliceSkill,
+				'core.base.model.AliceSkill'     : AliceSkill,
 				'core.dialog.model.DialogSession': DialogSession,
-				'core.util.Decorators': Decorators,
-				'core.base.SuperManager': SuperManager
+				'core.util.Decorators'           : Decorators,
+				'core.base.SuperManager'         : SuperManager
 			}
 		)
 		patcher.start()
@@ -25,21 +25,33 @@ class ProjectAliceUnittest:
 
 	@property
 	def start(self):
-		# Init the skill we are testing
-		try:
-			caller = inspect.getmodulename(inspect.stack()[1][1])
-			skillName = caller.replace('test_', '')
-			skillImport = importlib.import_module(f'{skillName}')
-			klass = getattr(skillImport, skillName)
-			return klass()
-		except:
-			print("Couldn't import skill to test")
+		return inspect.getmodulename(inspect.stack()[1][1])
+
+
+	# Init the skill we are testing
+	# try:
+	#	caller = inspect.getmodulename(inspect.stack()[1][1])
+	#	skillName = caller.replace('test_', '')
+	#	print(f' skillname = {skillName}')
+	# skillname = OvenTemperatureConversion
+
+	#	skillImport = importlib.import_module(f'{skillName}')
+	#	print(f'skillimport = {skillImport}')
+	# skillimport = < module 'OvenTemperatureConversion' from '/home/larry/Documents/GitHUbProjectAlice/ProjectAlice/skills/OvenTemperatureConversion/OvenTemperatureConversion.py' >
+
+	#	klass = getattr(skillImport, skillName)
+	#	print(f'klass = {klass}')
+	# klass is <class 'OvenTemperatureConversion.OvenTemperatureConversion'>
+	#	klass2 = f'{skillName}()'
+	#	return klass2
+	# except:
+	#	print("Couldn't import skill to test")
 
 
 	@classmethod
-	def SuperManager(cls): #NOSONAR
+	def SuperManager(cls):  # NOSONAR
 		return SuperManager.SuperManager(**{
-			'talkManager.randomTalk.return_value': 'unittest',
-			'languageManager.activeLanguage.return_value': 'en',
+			'talkManager.randomTalk.return_value'            : 'unittest',
+			'languageManager.activeLanguage.return_value'    : 'en',
 			'languageManager.supportedLanguages.return_value': ['en']
 		})
